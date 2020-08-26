@@ -1,12 +1,7 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import Axios from 'axios';
-import sendUserAction from '../actions/allUserAction';
-import './allProductsstyle.css';
+import axios from 'axios';
+import './login.css';
 import { Link } from 'react-router-dom';
-import userNameAction from '../actions/userNameAction';
-import loginAction from '../actions/loginAction';
 
 class Login extends React.Component {
     constructor(props) {
@@ -24,23 +19,20 @@ class Login extends React.Component {
         }
         this.getAllUsers();
     }
-    componentDidMount(){
-       this.getAllUsers();
-    }
     getAllUsers = () => {
-        Axios.get('http://localhost:3000/login').then((response) => {
-            console.log(response.data);
-            this.setState({ loginUser: response.data });
-            this.props.sendAllUser(response.data);
-        }, (error) => {
-            console.log(error.data);
-        })
+        axios.get('http://localhost:3000/login')
+            .then((response) => {
+                console.log(response.data);
+                this.setState({ loginUser: response.data });
+                console.log(this.state.loginUser);
+            }, (error) => {
+                console.log(error.data);
+            })
     }
     handleNewUserExist = () => {
         let exist = false;
-        console.log(this.props.allUser);
-        let olduser = this.props.allUser.filter((user) => {
-            return ((user.emailId === this.state.emailId) && (user.password === this.state.password))
+        let olduser = this.state.loginUser.filter((user) => {
+            return (user.emailId === this.state.emailId)
         })
         console.log(olduser.length);
         if (olduser.length === 0) {
@@ -48,13 +40,9 @@ class Login extends React.Component {
         } else {
             this.setState({ oldUser: olduser, isExist: true, buttonStatus: true });
             exist = true;
-            this.props.loginClicked(exist);
-            this.props.sendUserName(this.state.emailId);
-            this.props.history.push('/products');
         }
         if (exist) {
-            console.log(this.state.emailId);
-            console.log(this.props.loginClicked(exist))
+            this.props.history.push('/products');
         }
 
     }
@@ -112,7 +100,7 @@ class Login extends React.Component {
                                                     Login
                                                     </button>
                                             </div>
-                                            <span className='float-right mt-4'><Link to='/signup'>NewUser?SignUp</Link></span>
+                                            <span className='float-right mt-4'><Link to='/Signup'>NewUser?SignUp</Link></span>
                                         </div>
                                     </div>
                                 </div>
@@ -120,22 +108,9 @@ class Login extends React.Component {
                         </div>
                     </div>
                 </form>
-            </div>
+            </div >
         );
     }
 }
-function storeToprops(store) {
-    console.log(store.allUser);
-    return {
-        allUser: store.allUser
-    }
-}
-function dispatchToaction(dispatch) {
-    return bindActionCreators({
-        sendAllUser: sendUserAction,
-        sendUserName: userNameAction,
-        loginClicked: loginAction
-    }, dispatch);
-}
 
-export default connect(storeToprops, dispatchToaction)(Login);
+export default Login;

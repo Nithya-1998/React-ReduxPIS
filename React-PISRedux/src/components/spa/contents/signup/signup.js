@@ -1,11 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import Axios from 'axios';
+import './signup.css'
+import axios from 'axios';
 const emailRegex = RegExp(
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-);
-const passwordRegex = RegExp(
-    /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/
 );
 const formValid = ({ formErrors, ...rest }) => {
     let valid = true;
@@ -17,11 +14,10 @@ const formValid = ({ formErrors, ...rest }) => {
     });
     return valid;
 };
-class SignUp extends React.Component {
+class Signup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allUser: [],
             emailId: null,
             password: null,
             confirmPwd: null,
@@ -30,24 +26,36 @@ class SignUp extends React.Component {
             formErrors: {
                 emailId: "",
                 password: "",
-                confirmPwd: ""
+                confirmPwd: ''
             },
             errorMsg: '',
             isExist: true,
             existMsg: '',
             pwdCheck: false,
             pwdMsg: '',
-            buttonStatus: false,
-            emailValid: false,
-            passwordValid: false,
-            passwordMatch: false
+            buttonStatus: false
         }
         this.getAllUsers();
     }
     getAllUsers = () => {
-        console.log(this.props.allUser);
-        this.setState({ allUser: this.props.allUser });
+        axios.get('http://localhost:3000/login')
+            .then((response) => {
+                console.log(response.data);
+                this.setState({ userCheck: response.data });
+                console.log(this.state.userCheck);
+            }, (error) => {
+                console.log(error.data);
+            })
     }
+    // handleEmailChange = (event) => {
+    //     this.setState({ emailId: event.target.value })
+    // }
+    // handlePwdChange = (event) => {
+    //     this.setState({ password: event.target.value })
+    // }
+    // handleConfirmPwdChange = (event) => {
+    //     this.setState({ confirmPwd: event.target.value })
+    // }
     handleChange = e => {
         e.preventDefault();
         const { name, value } = e.target;
@@ -63,16 +71,11 @@ class SignUp extends React.Component {
                 break;
             case "password":
                 formErrors.password =
-                    passwordRegex.test(value) ? "" :
-                        `Minimum 8 characaters required.
-                 Atleast 1 Special Character,
-                 1 Uppercase,
-                 1 number required`
+                    value.length < 9 ? "Minimum 8 characaters required" : "";
                 break;
             case "confirmPwd":
-                console.log(this.state.password);
                 formErrors.confirmPwd =
-                    (value === this.state.password) ? "" : "Password does not match";
+                    value === formErrors.password ? "Password does not match" : "";
                 break;
             default:
                 break;
@@ -81,8 +84,7 @@ class SignUp extends React.Component {
     };
     userExist() {
         let status = false
-        console.log(this.props.allUser);
-        var oldUser = this.props.allUser.filter((user) => {
+        var oldUser = this.state.userCheck.filter((user) => {
             return (user.emailId === this.state.emailId);
         })
         console.log(oldUser)
@@ -93,12 +95,16 @@ class SignUp extends React.Component {
         console.log(newUser);
         console.log(status)
         if (oldUser.length === 0) {
-            // this.props.addUser(newUser);
-            Axios.post('http://localhost:3000/login/', newUser).then((res) => {
-                console.log(res.data);
-                this.props.history.push('/');
-            })
-
+            // this.setState({ checkStatus: false });
+            axios.post('http://localhost:3000/login', newUser).then(
+                (response) => {
+                    console.log(response.data)
+                    this.intervaltime()
+                    this.props.history.push('/login');
+                }, (error) => {
+                    console.log(error.data)
+                }
+            );
         }
         else {
             this.setState({ errorMsg: "UserId Already Exist", checkStatus: true })
@@ -137,6 +143,15 @@ class SignUp extends React.Component {
         }
 
     };
+    // handleSubmit = (event) => {
+    //     event.preventDefault();
+    // this.checkStatus();
+    //     console.log(this.state.errorMsg + this.state.checkStatus);
+    //     this.intervaltime();
+    //     this.intervaltimestatus();
+    //     this.checkStatus();
+    // }
+
     render() {
         const { formErrors } = this.state;
         return (
@@ -171,9 +186,7 @@ class SignUp extends React.Component {
                                                 placeholder="Enter Password" required />
                                             {formErrors.password.length > 0 && (
                                                 <div className="alert alert-danger mt-2  ml-4 mr-4" role="alert">
-                                                    <span className="errorMessage">
-                                                        {formErrors.password}
-                                                    </span>
+                                                    <span className="errorMessage">{formErrors.password}</span>
                                                 </div>
                                             )}
                                         </div>
@@ -181,16 +194,13 @@ class SignUp extends React.Component {
                                             <label><b>Confirm Password : </b></label>
                                             <input type="password" id="confirmPwd" name="confirmPwd" className={formErrors.confirmPwd === formErrors.password ? "error" : null} noValidate
                                                 onChange={this.handleChange} placeholder="Confirm Password" required ></input>
-                                            {(formErrors.confirmPwd.length > 0) && (
-                                                <div className="alert alert-danger mt-2  ml-4 mr-4" role="alert">
-                                                    <span className="errorMessage">{formErrors.confirmPwd}</span>
-                                                </div>
+                                            {(formErrors.confirmPwd === formErrors.password) && (
+                                                <span className="errorMessage">{formErrors.confirmPwd}</span>
                                             )}
                                         </div>
                                         <div className="col-sm-12 col-md-12 col-lg-12">
                                             <div className="btn-group mb-4 mt-4">
-                                                <button type="button" disabled={!formValid(this.state)}
-                                                    className="btn btn-success font-weight-bold">
+                                                <button type="button" className="btn btn-success font-weight-bold">
                                                     Submit
                                                 </button>
                                             </div>
@@ -201,14 +211,9 @@ class SignUp extends React.Component {
                         </div>
                     </div>
                 </form>
-            </div>
+            </div >
         );
     }
 }
-function storeToprops(store) {
-    return {
-        allUser: store.allUser
-    }
-}
 
-export default connect(storeToprops, null)(SignUp);
+export default Signup;

@@ -9,6 +9,11 @@
       "id": 2,
       "emailId": "admin@gmail.com",
       "password": "admin@123"
+    },
+    {
+      "emailId": "nithya@gmail.com",
+      "password": "Nit4t@98",
+      "id": 3
     }
   ],
   "allProduct": [
