@@ -9,26 +9,6 @@
       "id": 2,
       "emailId": "admin@gmail.com",
       "password": "admin@123"
-    },
-    {
-      "emailId": "admin1@gmail.com",
-      "password": "123456789",
-      "id": 3
-    },
-    {
-      "emailId": "admin1@gmail.com",
-      "password": "123456789",
-      "id": 4
-    },
-    {
-      "emailId": "a1@gmail.com",
-      "password": "123456789",
-      "id": 5
-    },
-    {
-      "emailId": "a1@gmail.com",
-      "password": "123456789",
-      "id": 6
     }
   ],
   "allProduct": [

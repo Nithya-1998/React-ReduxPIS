@@ -13,7 +13,8 @@ class Dashboard extends React.Component {
             isGenderType: false,
             isCategoryType: false,
             pietype: true,
-            bartype: false
+            bartype: false,
+            default: true
         }
     }
     componentWillMount() {
@@ -243,10 +244,13 @@ class Dashboard extends React.Component {
         e.preventDefault();
         this.setState({ pietype: false, bartype: true })
     }
+    renderDataStock = () => {
+
+    }
     render() {
         return (
             <div>
-                <div><h2>Dashboard Page</h2></div>
+                <div><h2>Dashboard</h2></div>
                 <ul className="nav nav-tabs nav-fill nav-justified mb-3" role="tablist">
                     <li className="nav-item">
                         <button onClick={this.handlePieChart} className="btn btn-info mr-3 ml-3">

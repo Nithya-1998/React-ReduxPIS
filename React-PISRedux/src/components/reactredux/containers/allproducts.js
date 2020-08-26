@@ -16,6 +16,8 @@ class AllProducts extends React.Component {
             isCategorySearch: false,
             isManufacturerSearch: false,
             isSupplierSearch: false,
+            isDeleteAll: false,
+            delCount: []
         }
         console.log("In constructor")
         this.getAllProducts();
@@ -43,12 +45,13 @@ class AllProducts extends React.Component {
         console.log("In catch");
     }
     componentDidUpdate() {
-        // this.renderAllProducts();
-        // console.log(this.renderAllProducts())
+        this.renderAllProducts();
+        console.log(this.renderAllProducts())
         console.log("Did Update");
     }
     componentDidMount() {
         console.log("In did mount");
+        console.log(this.getAllProducts());
         console.log(this.state.allProducts);
     }
     getAllProducts = () => {
@@ -56,6 +59,7 @@ class AllProducts extends React.Component {
             console.log(response.data);
             this.setState({ allProducts: response.data });
             this.props.sendAllProducts(response.data);
+            return response.data;
         }, (error) => {
             console.log(error.data);
         })
@@ -99,11 +103,12 @@ class AllProducts extends React.Component {
     onDelete = (product) => {
         console.log(product);
         this.props.deleteProduct(product);
+        this.renderAllProducts();
         console.log(this.props.allProducts);
         console.log(this.state.allProducts);
         setTimeout(() => {
             this.getAllProducts();
-        }, 50);
+        }, 500);
         console.log(this.props.allProducts);
         console.log(this.state.allProducts);
     }
@@ -244,6 +249,35 @@ class AllProducts extends React.Component {
                 break;
         }
     }
+    handleBulkDelete = (product, e) => {
+        e.preventDefault();
+        console.log(e.target.checked);
+        console.log(this.state.delCount);
+        console.log(product);
+        if (product && e.target.checked) {
+            this.state.delCount.push(product.id);
+        } else {
+            this.state.delCount.pop(product.id);
+        }
+        console.log(this.state.delCount);
+    }
+    handleRemove = (e) => {
+        e.preventDefault();
+        console.log(this.state.delCount.length);
+        console.log(this.state.delCount[0]);
+        for (var i = 0; i < this.state.delCount.length; i++) {
+            console.log(i);
+            axios.delete('http://localhost:3000/allProduct/' + this.state.delCount[i]).then((res) => {
+                console.log(res.data)
+            }, (error) => {
+                console.log(error.data)
+            })
+        }
+        setTimeout(() => {
+            this.getAllProducts();
+        }, 500);
+
+    }
 
     renderAllProducts = () => {
         return this.state.allProducts.map((product) => {
@@ -283,9 +317,21 @@ class AllProducts extends React.Component {
                             <i className="material-icons text-danger">delete</i>
                         </button>
                     </td>
+                    {/* {this.state.isDeleteAll &&
+                        <td><input type="checkbox" id="delete" value={product} onChange={() => this.handleBulkDelete(product)}></input></td>} */}
+                    {this.state.isDeleteAll &&
+                        <td><input type="checkbox" id="deleteAll" value={product} onChange={(e) => this.handleBulkDelete(product, e)}></input></td>}
                 </tr>
             )
         })
+    }
+    handleSelect = (e) => {
+        e.preventDefault();
+        if (!e.target.value) {
+            this.setState({ isDeleteAll: true })
+        } else {
+            this.setState({ isDeleteAll: false })
+        }
     }
 
     render() {
@@ -361,7 +407,7 @@ class AllProducts extends React.Component {
                         </div>
                     </nav>
                     <a >
-                        <button type="button" className="btn btn-dark mr-4 ml-4">
+                        <button type="button" className="btn btn-dark">
                             <Link to={
                                 {
                                     pathname: '/add',
@@ -372,6 +418,10 @@ class AllProducts extends React.Component {
                                 <span className="text-light font-weight-bold">Add Product</span></Link>
                         </button>
                     </a>
+                    <button type="button" onClick={this.handleSelect} className="btn btn-dark">Select More</button>
+                    {this.state.isDeleteAll && <button type="button" onClick={this.handleRemove} className="btn btn-dark">
+                        <i className="material-icons text-danger">delete</i>
+                    </button>}
                 </span>
                 <div class="container-fluid">
                     <div class="table-responsive">
@@ -396,6 +446,8 @@ class AllProducts extends React.Component {
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
+                                    {this.state.isDeleteAll &&
+                                        <th scope="col">DeleteAll</th>}
                                 </tr>
                             </thead>
                             <tbody>
