@@ -191,7 +191,7 @@ class SignUp extends React.Component {
                                             <div className="btn-group mb-4 mt-4">
                                                 <button type="button" disabled={!formValid(this.state)}
                                                     className="btn btn-success font-weight-bold">
-                                                    Submit
+                                                    SignUp
                                                 </button>
                                             </div>
                                         </div>
