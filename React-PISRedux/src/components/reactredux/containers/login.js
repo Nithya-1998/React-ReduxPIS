@@ -24,14 +24,15 @@ class Login extends React.Component {
         }
         this.getAllUsers();
     }
-    componentDidMount(){
-       this.getAllUsers();
+    componentDidMount() {
+        this.getAllUsers();
     }
     getAllUsers = () => {
         Axios.get('http://localhost:3000/login').then((response) => {
             console.log(response.data);
             this.setState({ loginUser: response.data });
             this.props.sendAllUser(response.data);
+            return response.data;
         }, (error) => {
             console.log(error.data);
         })
@@ -99,11 +100,11 @@ class Login extends React.Component {
                                     <div className="mt-2 ml-4 mr-4">
                                         <div className="col-sm-12 col-md-12 col-lg-12">
                                             <label for="emailId"><b>Email Id : </b></label>
-                                            <input type="text" id="emailId" className="emailId" value={this.state.emailId} onChange={this.handleEmailChange} placeholder="Enter Email-id.." required ></input>
+                                            <input type="text" data-testid="emailId" id="emailId" className="emailId" value={this.state.emailId} onChange={this.handleEmailChange} placeholder="Enter Email-id.." required ></input>
                                         </div>
                                         <div className="col-sm-12 col-md-12 col-lg-12">
                                             <label for="password"><b>Password : </b></label>
-                                            <input type="password" id="password" className="password" value={this.state.password} onChange={this.handlePwdChange}
+                                            <input type="password" data-testid="password" id="password" className="password" value={this.state.password} onChange={this.handlePwdChange}
                                                 placeholder="Enter Password" />
                                         </div>
                                         <div className="col-sm-12 col-md-12 col-lg-12">

@@ -7,7 +7,7 @@ class Dashboard extends React.Component {
         this.state = {
             allproduct: [],
             chartData: [],
-            isInstock: false,
+            isInstock: true,
             isSalesExpenseYear: false,
             isSalesExpenseWeek: false,
             isGenderType: false,
@@ -75,28 +75,30 @@ class Dashboard extends React.Component {
         if (this.state.isInstock) {
             return (
                 <div>
-                    {this.state.pietype &&
-                        <Chart
-                            width={'500px'}
-                            height={'500px'}
-                            chartType="PieChart"
-                            loader={<div>Loading Chart</div>}
-                            data={this.renderInStockData()}
-                            options={{
-                                title: 'Current Product Stock Availability',
-                            }}
-                        />}
-                    {this.state.bartype &&
-                        <Chart
-                            width={'500px'}
-                            height={'700px'}
-                            chartType="BarChart"
-                            loader={<div>Loading Chart</div>}
-                            data={this.renderInStockData()}
-                            options={{
-                                title: 'Current Product Stock Availability',
-                            }}
-                        />}
+                    < span>
+                        {this.state.pietype &&
+                            <Chart
+                                width={'500px'}
+                                height={'500px'}
+                                chartType="PieChart"
+                                loader={<div>Loading Chart</div>}
+                                data={this.renderInStockData()}
+                                options={{
+                                    title: 'Current Product Stock Availability',
+                                }}
+                            />}
+                        {this.state.bartype &&
+                            <Chart
+                                width={'500px'}
+                                height={'500px'}
+                                chartType="BarChart"
+                                loader={<div>Loading Chart</div>}
+                                data={this.renderInStockData()}
+                                options={{
+                                    title: 'Current Product Stock Availability',
+                                }}
+                            />}
+                    </span>
                 </div>
             )
         }
@@ -105,8 +107,8 @@ class Dashboard extends React.Component {
                 <div>
                     {this.state.pietype &&
                         <Chart
-                            width={'500px'}
-                            height={'500px'}
+                            width={'300px'}
+                            height={'300px'}
                             chartType="PieChart"
                             loader={<div>Loading Chart</div>}
                             data={this.renderCategoryType()}
@@ -116,8 +118,8 @@ class Dashboard extends React.Component {
                         />}
                     {this.state.bartype &&
                         <Chart
-                            width={'500px'}
-                            height={'700px'}
+                            width={'300px'}
+                            height={'300px'}
                             chartType="BarChart"
                             loader={<div>Loading Chart</div>}
                             data={this.renderCategoryType()}
@@ -131,43 +133,45 @@ class Dashboard extends React.Component {
         if (this.state.isGenderType) {
             return (
                 <div>
-                    <Chart
-                        width={'500px'}
-                        height={'300px'}
-                        chartType="BarChart"
-                        loader={<div>Loading Chart</div>}
-                        data={this.renderMenData()}
-                        options={{
-                            title: 'Men Stock',
-                        }}
-                    />
-                    <Chart
-                        width={'500px'}
-                        height={'300px'}
-                        chartType="BarChart"
-                        loader={<div>Loading Chart</div>}
-                        data={this.renderWoMenData()}
-                        options={{
-                            title: 'Women Stock',
-                        }}
-                    />
-                    <Chart
-                        width={'500px'}
-                        height={'300px'}
-                        chartType="BarChart"
-                        loader={<div>Loading Chart</div>}
-                        data={this.renderKidData()}
-                        options={{
-                            title: 'Kids Stock',
-                        }}
-                    />
+                    <span>
+                        <Chart
+                            width={'300px'}
+                            height={'300px'}
+                            chartType="BarChart"
+                            loader={<div>Loading Chart</div>}
+                            data={this.renderMenData()}
+                            options={{
+                                title: 'Men Stock',
+                            }}
+                        />
+                        <Chart
+                            width={'300px'}
+                            height={'300px'}
+                            chartType="BarChart"
+                            loader={<div>Loading Chart</div>}
+                            data={this.renderWoMenData()}
+                            options={{
+                                title: 'Women Stock',
+                            }}
+                        />
+                        <Chart
+                            width={'300px'}
+                            height={'300px'}
+                            chartType="BarChart"
+                            loader={<div>Loading Chart</div>}
+                            data={this.renderKidData()}
+                            options={{
+                                title: 'Kids Stock',
+                            }}
+                        />
+                    </span>
                 </div>
             )
         }
         if (this.state.isSalesExpenseYear) {
             return (
                 <Chart
-                    width={'500px'}
+                    width={'300px'}
                     height={'300px'}
                     chartType="AreaChart"
                     loader={<div>Loading Chart</div>}
@@ -192,7 +196,7 @@ class Dashboard extends React.Component {
         if (this.state.isSalesExpenseWeek) {
             return (
                 <Chart
-                    width={'700px'}
+                    width={'300px'}
                     height={'300px'}
                     chartType="LineChart"
                     loader={<div>Loading Chart</div>}
@@ -250,19 +254,7 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div>
-                <div><h2>Dashboard</h2></div>
-                <ul className="nav nav-tabs nav-fill nav-justified mb-3" role="tablist">
-                    <li className="nav-item">
-                        <button onClick={this.handlePieChart} className="btn btn-info mr-3 ml-3">
-                            Pie
-                        </button>
-                    </li>
-                    <li className="nav-item">
-                        <button onClick={this.handleBarChart} className="btn btn-dark text-light mr-3 ml-3">
-                            Bar
-                        </button>
-                    </li>
-                </ul>
+                <div className="mt-4"><h2>Dashboard</h2></div>
                 <ul className="navbar-nav">
                     <li className="nav-item dropdown">
                         <div className="d-flex">
@@ -283,7 +275,32 @@ class Dashboard extends React.Component {
                         </div>
                     </li>
                 </ul>
-                {this.renderData()}
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-sm-12 col-lg-12 col-md-12">
+                            <div className="card mt-4 mb-5">
+                                <ul className="navbar-nav mt-4 ml-auto">
+                                    <li className="nav-item dropdown">
+                                        <div className="d-flex">
+                                            <div className="flex-shrink-1">
+                                                <a className="nav-link bg-dark text-white dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                                    data-toggle="dropdown">
+                                                    Chart Type
+                                                </a>
+                                                <div className="dropdown-menu">
+                                                    <button onClick={this.handlePieChart} className="dropdown-item"><b>Pie</b></button>
+                                                    <button onClick={this.handleBarChart} className="dropdown-item"><b>Bar</b></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                {this.renderData()}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

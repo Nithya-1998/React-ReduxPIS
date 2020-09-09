@@ -7,7 +7,7 @@ class Footer extends React.Component {
             //     <div className="container" style={{margin:'15px'}}> &copy; CompanyName</div>
             // </div>
             <div className="navbar fixed-bottom mt-5 navbar-dark opacity">
-                <h6 className="text-dark">Copyright 2019</h6>
+                <h6 className="text-white">&#169; 2019</h6>
             </div>
         );
     }

@@ -17,24 +17,17 @@ class AllProducts extends React.Component {
             isManufacturerSearch: false,
             isSupplierSearch: false,
             isDeleteAll: false,
-            delCount: []
+            delCount: [],
+            delLength: 0
         }
         console.log("In constructor")
         this.getAllProducts();
     }
-    componentWillMount() {
-        // if (this.props.allProducts.length === 0) {
-        axios.get('http://localhost:3000/allProduct').then((response) => {
-            console.log(response.data);
-            this.setState({ allProducts: response.data });
-            this.props.sendAllProducts(response.data);
-        }, (error) => {
-            console.log(error.data);
-        })
-        console.log("In Will mount");
-        console.log(this.state.allProducts);
-        // }
-    }
+    // componentWillMount() {
+    //     // if (this.props.allProducts.length === 0) {
+    //     this.getAllProducts();
+    //     // }
+    // }
     componentWillReceiveProps() {
         console.log(this.props.allProducts);
         console.log(this.state.allProducts);
@@ -141,7 +134,7 @@ class AllProducts extends React.Component {
                 return stock;
             }
             case '10': {
-                stock = this.state.allProducts.filter((ps) => {
+                stock = this.props.allProducts.filter((ps) => {
                     return ps.inStock < 10;
                 })
                 console.log(stock);
@@ -149,7 +142,7 @@ class AllProducts extends React.Component {
                 return stock;
             }
             case '10-80': {
-                stock = this.state.allProducts.filter((ps) => {
+                stock = this.props.allProducts.filter((ps) => {
                     return (ps.inStock >= 10 && ps.inStock <= 80);
                 })
                 console.log(stock);
@@ -157,7 +150,7 @@ class AllProducts extends React.Component {
                 return stock;
             }
             case '80': {
-                stock = this.state.allProducts.filter((ps) => {
+                stock = this.props.allProducts.filter((ps) => {
                     return (ps.inStock > 80);
                 })
                 console.log(stock);
@@ -221,27 +214,27 @@ class AllProducts extends React.Component {
         let sortProd = [];
         switch (e) {
             case 'A-Z': {
-                sortProd = this.state.allProducts.sort(this.compareAZ);
+                sortProd = this.props.allProducts.sort(this.compareAZ);
                 this.setState({ allProducts: sortProd })
                 return sortProd;
             }
             case 'Z-A': {
-                sortProd = this.state.allProducts.sort(this.compareZA);
+                sortProd = this.props.allProducts.sort(this.compareZA);
                 this.setState({ allProducts: sortProd })
                 return sortProd;
             }
             case 'L-H': {
-                sortProd = this.state.allProducts.sort(this.compareLH);
+                sortProd = this.props.allProducts.sort(this.compareLH);
                 this.setState({ allProducts: sortProd })
                 return sortProd;
             }
             case 'H-L': {
-                sortProd = this.state.allProducts.sort(this.compareHL);
+                sortProd = this.props.allProducts.sort(this.compareHL);
                 this.setState({ allProducts: sortProd })
                 return sortProd;
             }
             case 'Id': {
-                sortProd = this.state.allProducts.sort(this.compareId);
+                sortProd = this.props.allProducts.sort(this.compareId);
                 this.setState({ allProducts: sortProd })
                 return sortProd;
             }
@@ -259,10 +252,12 @@ class AllProducts extends React.Component {
         } else {
             this.state.delCount.pop(product.id);
         }
-        console.log(this.state.delCount);
+        this.setState({ delLength: this.state.delCount.length })
+        console.log(this.state.delCount.length);
     }
     handleRemove = (e) => {
         e.preventDefault();
+        this.setState({ isDeleteAll: false });
         console.log(this.state.delCount.length);
         console.log(this.state.delCount[0]);
         for (var i = 0; i < this.state.delCount.length; i++) {
@@ -280,9 +275,9 @@ class AllProducts extends React.Component {
     }
 
     renderAllProducts = () => {
-        return this.state.allProducts.map((product) => {
+        return this.state.allProducts.map((product, i) => {
             return (
-                <tr key={product.id}>
+                <tr key={product.id} data-testid={'product-item-' + i}>
                     <th scope="row">{product.id}</th>
                     <td><img src={product.imageurl} style={{ height: '40px', width: '40px' }} /></td>
                     <td>{product.title}</td>
@@ -337,14 +332,33 @@ class AllProducts extends React.Component {
     render() {
         return (
             <div>
-                <span className="input-group-text" id="search"><i className="material-icons">search</i>
+                <span className="input-group-text bg-white" id="search"><i className="material-icons">search</i>
                     <input type="text" className="dropdown-item" onChange={this.handleSearch} placeholder="Search here..." />
-                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <nav className="navbar navbar-expand-lg navbar-white bg-white">
                         <button className="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#navbardropdown">
                             <span className="navbar-toggler-icon"></span>
                         </button>
-                        <div className="collapse navbar-collapse  navbar-light navbar-light" id="navbardropdown">
+                        <div className="collapse navbar-collapse navbar-light" id="navbardropdown">
                             <ul className="navbar-nav">
+                                <li className="nav-item dropdown">
+                                    <div className="d-flex">
+                                        <div className="flex-shrink-1">
+                                            <a className="nav-link bg-light text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i className="material-icons">search</i>  Select type
+                                            </a>
+                                            <div className="dropdown-menu">
+                                                <div className="dropdown-item bg-dark text-light" data-target="#cost">
+                                                    Product
+                                            </div>
+                                                <button onClick={this.searchManufacturer} className="dropdown-item">Manufacturer</button>
+                                                <button onClick={this.searchSupplier} className="dropdown-item">Supplier</button>
+                                                <button onClick={this.searchCategory} className="dropdown-item">Category</button>
+                                                <button onClick={this.searchTitle} className="dropdown-item">Title</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>&nbsp;
                                 <li className="nav-item dropdown">
                                     <div className="d-flex">
                                         <div className="flex-shrink-1">
@@ -362,7 +376,7 @@ class AllProducts extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                </li>
+                                </li>&nbsp;
                                 <li className="nav-item dropdown">
                                     <div className="d-flex">
                                         <div className="flex-shrink-1">
@@ -383,51 +397,55 @@ class AllProducts extends React.Component {
                                         </div>
                                     </div>
                                 </li>
-                                <li className="nav-item dropdown">
-                                    <div className="d-flex">
-                                        <div className="flex-shrink-1">
-                                            <a className="nav-link bg-light text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                                                Select <i className="material-icons">search</i> type
-                                         </a>
-                                            <div className="dropdown-menu">
-                                                <div className="dropdown-item bg-dark text-light" data-target="#cost">
-                                                    Product
-                                            </div>
-                                                <button onClick={this.searchManufacturer} className="dropdown-item">Manufacturer</button>
-                                                <button onClick={this.searchSupplier} className="dropdown-item">Supplier</button>
-                                                <button onClick={this.searchCategory} className="dropdown-item">Category</button>
-                                                <button onClick={this.searchTitle} className="dropdown-item">Title</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
                             </ul>
+                            <div>
+                                <button type="button" className="btn btn-dark mt-2">
+                                    <Link to={
+                                        {
+                                            pathname: '/add',
+                                            state: this.state
+                                        }
+                                    } style={{ textDecoration: "none" }}>
+                                        <i className="material-icons text-white font-weight-bold" style={{fontSize:'18px'}}>add</i>
+                                        <span className="text-white font-weight-bold">Add Product</span></Link>
+                                </button>
+                            </div>
+                            <div>
+                                <button type="button" onClick={this.handleSelect} className="btn btn-dark font-weight-bold">Select More</button>
+                            </div>
+                            <div>
+                                {this.state.isDeleteAll && <button type="button" className="btn btn-dark" data-toggle="modal" data-target="#myModal">
+                                    <i className="material-icons text-danger">delete</i>
+                                </button>}
+                            </div>
                         </div>
                     </nav>
-                    <a >
-                        <button type="button" className="btn btn-dark">
-                            <Link to={
-                                {
-                                    pathname: '/add',
-                                    state: this.state
-                                }
-                            } style={{ textDecoration: "none" }}>
-                                <i className="material-icons text-light font-weight-bold">add</i>
-                                <span className="text-light font-weight-bold">Add Product</span></Link>
-                        </button>
-                    </a>
-                    <button type="button" onClick={this.handleSelect} className="btn btn-dark">Select More</button>
-                    {this.state.isDeleteAll && <button type="button" onClick={this.handleRemove} className="btn btn-dark">
-                        <i className="material-icons text-danger">delete</i>
-                    </button>}
                 </span>
-                <div class="container-fluid">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover">
+                <div className="modal" id="myModal">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <div className="modal-body text-center">
+                                Delete <b>{this.state.delLength}</b> Selected Products?
+                            </div>
+
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-dark mr-auto" onClick={this.handleRemove} data-dismiss="modal">Delete</button>
+                                <button type="button" className="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div className="container-fluid">
+                    <div className="table-responsive">
+                        <table className="table table-striped table-bordered table-hover">
                             <thead>
-                                <tr class="bg-dark text-white">
+                                <tr className="bg-dark text-white">
                                     <th scope="col">#</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Title</th>
@@ -447,7 +465,7 @@ class AllProducts extends React.Component {
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                     {this.state.isDeleteAll &&
-                                        <th scope="col">DeleteAll</th>}
+                                        <th scope="col">Select Product</th>}
                                 </tr>
                             </thead>
                             <tbody>

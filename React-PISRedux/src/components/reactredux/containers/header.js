@@ -28,14 +28,12 @@ class Header extends React.Component {
                         <div className="col px-3 px-md-0">
                             <a data-toggle="collapse" href="#" data-target=".collapse" role="button" className="text-white p-1">
                                 <i className="material-icons">menu</i> &nbsp;
-                                BuyKart
-                                <i className="material-icons mb-2 text-light" style={{ fontSize: '30px' }}>poll</i>
-
+                                    BuyKart <i className="material-icons mb-2 text-light" style={{ fontSize: '30px' }}>poll</i>
                             </a>
                         </div>
                     </div>
                 </div>
-                <div className="container-fluid px-0">
+                <div className="container-fluid px-0" data-toggle="collapse" data-target=".collapse">
                     <div className="row collapse show no-gutters d-flex h-100 position-relative">
                         <div className="col-3 p-0 h-100 w-sidebar navbar-collapse collapse d-none d-md-flex sidebar">
                             <div className="navbar-dark bg-dark text-white position-fixed h-100 align-self-start w-sidebar">
@@ -43,7 +41,7 @@ class Header extends React.Component {
                                     <Link to="/products" style={{ color: 'black', textDecoration: 'none' }}>
                                         <b className="text-light mr-auto ml-2">
                                             {(!this.state.isLoggedIn && this.props.isLoggedIn !== null) &&
-                                                <span className="icon-button text-dark  btn-light font-weight-bold"><b>{this.props.isLoggedIn[0].toUpperCase()}</b></span>}
+                                                <h3 className="icon-button text-dark  btn-white font-weight-bold"><b>{this.props.isLoggedIn[0].toUpperCase()}</b></h3>}
                                         </b>
                                     </Link>
                                     <a data-toggle="collapse" className="px-1 d-inline d-md-none text-white" href="#" data-target=".collapse">
@@ -54,7 +52,7 @@ class Header extends React.Component {
                                         <li className="nav-item" >
                                             <a className="nav-link">
                                                 <div className="btn-group">
-                                                    <button type="button" className="btn btn-light font-weight-bold">
+                                                    <button type="button" className="btn btn-white font-weight-bold">
                                                         <Link to="/" style={{ color: 'black', textDecoration: 'none' }}>
                                                             Login</Link>
                                                     </button>
@@ -65,7 +63,7 @@ class Header extends React.Component {
                                         <li className="nav-item">
                                             <a className="nav-link">
                                                 <div className="btn-group">
-                                                    <button type="button" className="btn btn-light font-weight-bold">
+                                                    <button type="button" className="btn btn-white font-weight-bold">
                                                         <Link to="/signup" style={{ color: 'black', textDecoration: 'none' }}>Signup</Link>
                                                     </button>
                                                 </div>
@@ -76,7 +74,7 @@ class Header extends React.Component {
                                             <a className="nav-link">
                                                 <div className="btn-group">
                                                     <button type="button" onClick={() => { this.setState({ isLoggedIn: true }) }}
-                                                        className="btn btn-light font-weight-bold">
+                                                        className="btn btn-white font-weight-bold">
                                                         {/* <Link to="/" style={{ color: 'black', textDecoration: 'none' }}> */}
                                                             Logout
                                                             {/* </Link> */}
@@ -88,7 +86,7 @@ class Header extends React.Component {
                                         <li className="nav-item" >
                                             <a className="nav-link">
                                                 <div className="btn-group">
-                                                    <button type="button" className="btn btn-light font-weight-bold">
+                                                    <button type="button" className="btn btn-white font-weight-bold">
                                                         <Link to="/products" style={{ color: 'black', textDecoration: 'none' }}>Inventory</Link>
                                                     </button>
                                                 </div>
@@ -98,7 +96,7 @@ class Header extends React.Component {
                                         <li className="nav-item" >
                                             <a className="nav-link">
                                                 <div className="btn-group">
-                                                    <button type="button" className="btn btn-light font-weight-bold">
+                                                    <button type="button" className="btn btn-white font-weight-bold">
                                                         <Link to="/dashboard" style={{ color: 'black', textDecoration: 'none' }}>Dashboard</Link>
                                                     </button>
                                                 </div>
