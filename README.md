@@ -1,4 +1,3 @@
-# React-ReduxPIS
 Product Inventory App
 Features ->
     1. Login (Already Existed User can directly Log In with the credentials -> emailId:admin@gmail.com & password:Admin@123)
@@ -16,6 +15,3 @@ Features ->
         a) Category -  user allowed to filter whatever mentioned in the dropdown list
         b) Chart Type - user allowed to select chart type (Pie/Bar) for some category.
     5. Logout (Returns to Home Page)
-    
-     
-        
