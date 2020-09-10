@@ -332,11 +332,14 @@ class AllProducts extends React.Component {
     render() {
         return (
             <div>
-                <span className="input-group-text bg-white" id="search"><i className="material-icons">search</i>
-                    <input type="text" className="dropdown-item" onChange={this.handleSearch} placeholder="Search here..." />
-                    <nav className="navbar navbar-expand-lg navbar-white bg-white">
-                        <button className="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#navbardropdown">
-                            <span className="navbar-toggler-icon"></span>
+                <span className="row">
+                    <span className="col-lg-6 col-sm-12 col-md-12 input-group-text bg-white" id="search"><i className="material-icons">search</i>
+                        <input type="text" className="dropdown-item" onChange={this.handleSearch} placeholder="Search here..." />
+                    </span>
+                    <nav className="col-sm-12 col-lg-6 col-md-12 navbar navbar-expand-lg navbar-white bg-white">
+                        <button className="navbar-toggler ml-auto bg-dark" type="button" data-toggle="collapse" data-target="#navbardropdown">
+                            {/* <span className="navbar-toggler-icon"></span> */}
+                            <i className="material-icons text-white">menu</i>
                         </button>
                         <div className="collapse navbar-collapse navbar-light" id="navbardropdown">
                             <ul className="navbar-nav">
@@ -406,12 +409,12 @@ class AllProducts extends React.Component {
                                             state: this.state
                                         }
                                     } style={{ textDecoration: "none" }}>
-                                        <i className="material-icons text-white font-weight-bold" style={{fontSize:'18px'}}>add</i>
+                                        <i className="material-icons text-white font-weight-bold" style={{ fontSize: '18px' }}>add</i>
                                         <span className="text-white font-weight-bold">Add Product</span></Link>
                                 </button>
                             </div>
                             <div>
-                                <button type="button" onClick={this.handleSelect} className="btn btn-dark font-weight-bold">Select More</button>
+                                <button type="button" onClick={this.handleSelect} className="btn btn-dark font-weight-bold mt-2">Select More</button>
                             </div>
                             <div>
                                 {this.state.isDeleteAll && <button type="button" className="btn btn-dark" data-toggle="modal" data-target="#myModal">
@@ -420,6 +423,7 @@ class AllProducts extends React.Component {
                             </div>
                         </div>
                     </nav>
+                    {/* </span> */}
                 </span>
                 <div className="modal" id="myModal">
                     <div className="modal-dialog">
@@ -474,7 +478,7 @@ class AllProducts extends React.Component {
                         </table>
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
 }

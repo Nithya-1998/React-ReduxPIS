@@ -396,6 +396,25 @@
       "warranty": 3,
       "supplier": "xxx",
       "gender": "F/M"
+    },
+    {
+      "id": 21,
+      "title": "Girls Heels Slingback",
+      "cost": 740,
+      "inStock": 30,
+      "description": "Regular Fit",
+      "category": "Sandal",
+      "imageurl": "https://assets.ajio.com/medias/sys_master/root/hca/h5c/15154525601822/-78Wx98H-460391793-black-MODEL.jpg",
+      "outOfstock": 70,
+      "quantity": 100,
+      "color": "#e2a239",
+      "type": "Heels",
+      "manufacturer": "BATA",
+      "material": "Leather",
+      "size": 8,
+      "warranty": 5,
+      "supplier": "Marc Loire",
+      "gender": ""
     }
   ]
 }
