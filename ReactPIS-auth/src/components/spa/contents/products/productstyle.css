@@ -1,0 +1,23 @@
+.instock,.productdescription,.category,.title,.cost,.imgUrl,.quantity,.outOfstock,.type,.color,.size,.manufacturer,.material,.supplier,.warranty{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+section {
+  font: 300 14px/1.5 'Oxygen', sans-serif;
+}
+.table td,
+.table th {
+  padding: 20px;
+}
+
+/* .tooltip .arrow:before {
+  border-left-color: #dc3545;
+}
+.tooltip .tooltip-inner {
+  background: #dc3545;
+} */

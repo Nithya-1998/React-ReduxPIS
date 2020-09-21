@@ -1,0 +1,16 @@
+/* .content{
+    padding-bottom:2%;
+} */
+.navbar{
+    background-color:black;
+}
+.material-icons{
+    vertical-align : middle;
+}
+.opacity{
+    opacity : 0.7;
+}
+.jumbotron{
+    background-image : url("");
+    background-size : 75%;
+}
