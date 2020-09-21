@@ -18,7 +18,7 @@ function App() {
 }
 export function idleLogout() {
   var t;
-  var alertStatus = false;
+  var alertStatus;
   window.onload = resetTimer;
   window.onmousemove = resetTimer;
   window.onmousedown = resetTimer;  // catches touchscreen presses as well      
@@ -29,14 +29,13 @@ export function idleLogout() {
   const idleAlert = () => {
     alertStatus = true;
     console.log(alertStatus);
-    alert("Idle for more than a minute");
-    console.log(alertStatus);
+    alert('Screen is idle for more than a minute\nPress Ok to Renew Session');
+    window.location.reload();
   }
-
   function resetTimer() {
     clearTimeout(t);
-    t = setTimeout(idleAlert, 100000);  // time is in milliseconds
-    console.log(alertStatus);
+    t = setTimeout(idleAlert, 100000);
+    // time is in milliseconds
   }
   return (alertStatus,
     <div>
